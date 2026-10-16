@@ -1,0 +1,71 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Heating thermostat",
+        "description": "Pick the thermostat to control. Optionally add a temperature sensor, the entity telling when nobody is home and the guests entity. Frost protection, limits and announcements are set afterwards in the preferences.",
+        "data": {
+          "name": "Name",
+          "climate": "Thermostat",
+          "temperature_sensor": "Room temperature sensor (optional)",
+          "away_entity": "Nobody home (optional)",
+          "guests_entity": "Guests at home (optional)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This thermostat is already in use"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Thermostat preferences",
+        "description": "The same preferences as the cog window on the card.",
+        "data": {
+          "antigelo": "Frost protection temperature (°C)",
+          "min_target": "Minimum target (°C)",
+          "max_target": "Maximum target (°C)",
+          "default_target": "Default target (°C)",
+          "timer_max_hours": "Maximum timer length (hours)",
+          "frost_keep_heat": "Outside the program keep the thermostat on at frost protection",
+          "away_setback": "Set back to frost protection when nobody is home",
+          "away_minutes": "Minutes of empty house before setting back",
+          "notify_enabled": "Voice announcements on",
+          "notify_service": "Announcement service (for example notify.alexa_media)",
+          "notify_targets": "Announcement speakers"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "modo": {
+        "name": "Mode",
+        "state": {
+          "programma": "Program",
+          "fuori_programma": "Off program",
+          "manuale": "Manual",
+          "timer": "Timer",
+          "spento": "Off"
+        }
+      },
+      "prossimo_evento": {
+        "name": "Next event"
+      }
+    },
+    "binary_sensor": {
+      "assenza_attiva": {
+        "name": "Empty house, frost protection"
+      },
+      "sta_scaldando": {
+        "name": "Heating"
+      }
+    },
+    "switch": {
+      "programmazione": {
+        "name": "Schedule"
+      }
+    }
+  }
+}

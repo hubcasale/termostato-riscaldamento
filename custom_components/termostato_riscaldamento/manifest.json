@@ -1,0 +1,23 @@
+{
+  "domain": "termostato_riscaldamento",
+  "name": "Termostato riscaldamento",
+  "after_dependencies": [
+    "recorder",
+    "history"
+  ],
+  "codeowners": [
+    "@hubcasale"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "http",
+    "frontend",
+    "websocket_api"
+  ],
+  "documentation": "https://github.com/hubcasale/termostato-riscaldamento",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/hubcasale/termostato-riscaldamento/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
