@@ -200,33 +200,34 @@ export class TermostatoCard extends LitElement {
           <div class="pill ${pill[1]}"><i></i>${pill[0]}</div>
         </div>
 
-        <div class="gauge">
-          ${unsafeSVG(gaugeSvg(g))}
-          <div class="read"><div class="big">${fmtTemp(lv.current)}<span> °C</span></div></div>
+        <div class="cols">
+          <div class="left">
+            <div class="gauge">
+              ${unsafeSVG(gaugeSvg(g))}
+              <div class="read"><div class="big">${fmtTemp(lv.current)}<span> °C</span></div></div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="stepper" role="group" aria-label="Obiettivo">
+              <button class="st" aria-label="Diminuisci l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(-1, shownTarget ?? s.default_target)}>−</button>
+              <div class="tv">${fmtTemp(shownTarget ?? s.default_target)}<span> °C</span></div>
+              <button class="st" aria-label="Aumenta l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(1, shownTarget ?? s.default_target)}>+</button>
+            </div>
+            <div class="modes" role="group" aria-label="Modalità">
+              ${this._modeButton(MODE_LABEL.programma, "mdi:calendar-clock", isProgram, () => void this._setMode("programma"), lv.mode === "fuori_programma")}
+              ${this._modeButton(MODE_LABEL.manuale, "mdi:hand-back-right-outline", lv.mode === "manuale", () => void this._setMode("manuale"))}
+              ${this._modeButton(MODE_LABEL.timer, "mdi:timer-outline", lv.mode === "timer", () => void this._open("termostato-timer-dialog"))}
+              ${this._modeButton(MODE_LABEL.spento, "mdi:snowflake", lv.mode === "spento", () => void this._setMode("spento"))}
+            </div>
+          </div>
         </div>
 
-        <div class="stepper" role="group" aria-label="Obiettivo">
-          <button class="st" aria-label="Diminuisci l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(-1, shownTarget ?? s.default_target)}>−</button>
-          <div class="tv">${fmtTemp(shownTarget ?? s.default_target)}<span> °C</span></div>
-          <button class="st" aria-label="Aumenta l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(1, shownTarget ?? s.default_target)}>+</button>
-        </div>
-
-        <div class="modes" role="group" aria-label="Modalità">
-          ${this._modeButton(MODE_LABEL.programma, "mdi:calendar-clock", isProgram, () => void this._setMode("programma"), lv.mode === "fuori_programma")}
-          ${this._modeButton(MODE_LABEL.manuale, "mdi:hand-back-right-outline", lv.mode === "manuale", () => void this._setMode("manuale"))}
-          ${this._modeButton(MODE_LABEL.timer, "mdi:timer-outline", lv.mode === "timer", () => void this._open("termostato-timer-dialog"))}
-          ${this._modeButton(MODE_LABEL.spento, "mdi:snowflake", lv.mode === "spento", () => void this._setMode("spento"))}
-        </div>
-
-        <div class="line ${line.tone}"><ha-icon icon=${line.icon}></ha-icon><span>${line.text}</span></div>
-        ${this._error ? html`<div class="errbox">${this._error}</div>` : nothing}
-
-        <div class="actions">
-          <button class="btn" @click=${() => void this._open("termostato-schedule-dialog")}><ha-icon icon="mdi:calendar-edit"></ha-icon>Programma</button>
-          <button class="btn" @click=${() => void this._open("termostato-timer-dialog")}><ha-icon icon="mdi:timer-cog-outline"></ha-icon>Timer</button>
-          <span class="grow"></span>
+        <div class="lrow">
+          <div class="line ${line.tone}"><ha-icon icon=${line.icon}></ha-icon><span>${line.text}</span></div>
+          <button class="btn icon" aria-label="Modifica il programma settimanale" @click=${() => void this._open("termostato-schedule-dialog")}><ha-icon icon="mdi:calendar-edit"></ha-icon></button>
           <button class="btn icon" aria-label="Preferenze del termostato" @click=${() => void this._open("termostato-settings-dialog")}><ha-icon icon="mdi:cog"></ha-icon></button>
         </div>
+        ${this._error ? html`<div class="errbox">${this._error}</div>` : nothing}
       </div>
     `);
   }
@@ -236,7 +237,7 @@ export class TermostatoCard extends LitElement {
   }
 
   static styles = css`
-    :host { display: block; }
+    :host { display: block; container-type: inline-size; }
     ha-card { overflow: hidden; }
     .embed { border-radius: 14px; background: var(--secondary-background-color, rgba(127, 127, 127, 0.1)); }
     .pad { padding: 12px 14px 14px; }
@@ -247,6 +248,7 @@ export class TermostatoCard extends LitElement {
     .pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; background: rgba(127, 127, 127, 0.18); }
     .pill i { width: 9px; height: 9px; border-radius: 50%; background: #9aa1ad; }
     .pill.ok i { background: #22c55e; } .pill.warn i { background: #f59e0b; } .pill.bad i { background: #ef4444; }
+    .cols { display: block; }
     .gauge { max-width: 230px; margin: 2px auto 0; color: var(--primary-text-color, #212121); }
     .gauge svg { display: block; width: 100%; height: auto; }
     .read { text-align: center; line-height: 1.1; margin-top: 2px; }
@@ -261,14 +263,21 @@ export class TermostatoCard extends LitElement {
     .mb ha-icon { --mdc-icon-size: 20px; }
     .mb.on { background: rgba(96, 165, 250, 0.2); border-color: #60a5fa; font-weight: 600; }
     .mb.on.warn { background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; }
-    .line { display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; padding: 8px 10px; border-radius: 10px; font-size: 0.85rem; line-height: 1.3; background: rgba(127, 127, 127, 0.1); }
-    .line ha-icon { --mdc-icon-size: 18px; flex: none; margin-top: 1px; }
+    .lrow { display: flex; align-items: stretch; gap: 6px; margin-top: 10px; }
+    .line { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 10px; font-size: 0.85rem; line-height: 1.25; background: rgba(127, 127, 127, 0.1); }
+    .line ha-icon { --mdc-icon-size: 18px; flex: none; }
     .line.success { background: rgba(34, 197, 94, 0.14); } .line.warning { background: rgba(245, 158, 11, 0.16); } .line.accent { background: rgba(96, 165, 250, 0.16); }
-    .actions { display: flex; gap: 8px; margin-top: 10px; align-items: center; flex-wrap: wrap; }
-    .grow { flex: 1; }
-    .btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; border: 1px solid var(--divider-color, #ccc); background: var(--card-background-color, rgba(127, 127, 127, 0.08)); color: inherit; border-radius: 12px; padding: 8px 14px; font-size: 0.88rem; cursor: pointer; }
-    .btn ha-icon { --mdc-icon-size: 18px; }
-    .btn.icon { padding: 8px 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; min-width: 44px; box-sizing: border-box; border: 1px solid var(--divider-color, #ccc); background: var(--card-background-color, rgba(127, 127, 127, 0.08)); color: inherit; border-radius: 12px; padding: 4px 10px; font-size: 0.88rem; cursor: pointer; }
+    .btn ha-icon { --mdc-icon-size: 20px; }
+    /* con spazio in larghezza (colonna di una scheda più grande, tablet): quadrante a sinistra, controlli a destra */
+    @container (min-width: 430px) {
+      .cols { display: grid; grid-template-columns: minmax(150px, 0.9fr) 1.1fr; gap: 14px; align-items: center; }
+      .gauge { max-width: 210px; }
+      .big { font-size: 1.8rem; }
+      .stepper { margin: 0 0 8px; }
+      .modes { grid-template-columns: repeat(2, 1fr); }
+      .mb { min-height: 44px; flex-direction: row; gap: 6px; font-size: 0.82rem; }
+    }
   `;
 }
 
