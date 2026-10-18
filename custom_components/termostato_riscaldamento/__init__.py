@@ -16,7 +16,7 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import CARD_FILE, CARD_URL, CONF_AWAY, CONF_CLIMATE, CONF_GUESTS, CONF_TEMP, DOMAIN, PLATFORMS
 from .controller import TermoController, sources_of
-from .logic import MODES, Settings
+from .logic import MODE_OFF, MODES, Settings
 from .schedule import Schedule
 
 _LOGGER = logging.getLogger(__name__)
@@ -190,10 +190,14 @@ def ws_timer(hass: HomeAssistant, connection: websocket_api.ActiveConnection, ms
 )
 @callback
 def ws_target(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict[str, Any]) -> None:
-    """Cambia l'obiettivo a mano (nei limiti delle preferenze)."""
+    """Cambia l'obiettivo a mano (nei limiti delle preferenze); da Spento non fa niente."""
     c = _controller(hass, msg.get("entry_id"))
     if c is None:
         _missing(connection, msg)
+        return
+    if c.mode == MODE_OFF:
+        # da Spento il + e il − non devono accendere niente: prima si sceglie Manuale
+        connection.send_error(msg["id"], "spento", "Il termostato è spento: scegli prima Manuale per regolare la temperatura.")
         return
     connection.send_result(msg["id"], {"target": c.set_target(msg["temperature"])})
 

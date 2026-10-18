@@ -43,6 +43,14 @@ export function whenText(t: number, now: number): string {
   return `${names[d.getDay()]} ${d.getDate()} alle ${hm}`;
 }
 
+/**
+ * Il + e il − cambiano l'obiettivo e accendono il termostato: da Spento non si può, bisogna scegliere prima Manuale
+ * (che riporta l'obiettivo predefinito).
+ */
+export function canAdjustTarget(mode: TermoMode, available: boolean): boolean {
+  return available && mode !== "spento";
+}
+
 export function clampStep(v: number, min: number, max: number, step: number): number {
   const c = Math.min(max, Math.max(min, v));
   const decimals = (String(step).split(".")[1] ?? "").length;

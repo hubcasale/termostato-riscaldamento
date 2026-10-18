@@ -87,10 +87,26 @@ async def test_setup_entities_and_mode(hass: HomeAssistant) -> None:
     assert ctl.info()["available"] is False
 
 
+async def test_set_target_refused_when_off(hass: HomeAssistant, hass_ws_client) -> None:
+    """Da Spento il + e il − non accendono niente: prima si sceglie Manuale."""
+    entry, ctl, calls = await _setup(hass, mode="off")
+    client = await hass_ws_client(hass)
+    n = len(calls)
+    await client.send_json({"id": 1, "type": "termostato_riscaldamento/target", "temperature": 21.0})
+    res = await client.receive_json()
+    await hass.async_block_till_done()
+    assert not res["success"] and res["error"]["code"] == "spento"
+    assert len(calls) == n and ctl.mode == "spento"       # nessun comando al termostato
+
+
 async def test_set_target_clamps_and_turns_on(hass: HomeAssistant, hass_ws_client) -> None:
     entry, ctl, calls = await _setup(hass, mode="off")
     client = await hass_ws_client(hass)
-    await client.send_json({"id": 1, "type": "termostato_riscaldamento/target", "temperature": 31.3})
+    await client.send_json({"id": 1, "type": "termostato_riscaldamento/mode", "mode": "manuale"})
+    assert (await client.receive_json())["success"]
+    await hass.async_block_till_done()
+    assert ctl.mode == "manuale"                           # scelto Manuale, ora si regola
+    await client.send_json({"id": 2, "type": "termostato_riscaldamento/target", "temperature": 31.3})
     res = await client.receive_json()
     await hass.async_block_till_done()
     assert res["success"] and res["result"]["target"] == 23.0           # massimo delle preferenze

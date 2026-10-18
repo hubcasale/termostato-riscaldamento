@@ -1,7 +1,7 @@
 import { LitElement, html, css, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import { MODE_LABEL, clampStep, fmtTemp, gaugeModel, modeLine, toNumber } from "./card-logic";
+import { MODE_LABEL, canAdjustTarget, clampStep, fmtTemp, gaugeModel, modeLine, toNumber } from "./card-logic";
 import { gaugeSvg } from "./gauge";
 import "./schedule-dialog";
 import "./timer-dialog";
@@ -192,6 +192,7 @@ export class TermostatoCard extends LitElement {
     const heating = lv.action === "heating";
     const pill = !lv.available ? ["Non disponibile", "bad"] : heating ? ["Sta scaldando", "warn"] : lv.mode === "spento" ? ["Antigelo", "idle"] : ["A temperatura", "ok"];
     const isProgram = lv.mode === "programma" || lv.mode === "fuori_programma";
+    const canAdjust = canAdjustTarget(lv.mode, lv.available);
 
     return this._wrap(html`
       <div class="pad">
@@ -209,10 +210,11 @@ export class TermostatoCard extends LitElement {
           </div>
           <div class="right">
             <div class="stepper" role="group" aria-label="Obiettivo">
-              <button class="st" aria-label="Diminuisci l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(-1, shownTarget ?? s.default_target)}>−</button>
+              <button class="st" aria-label="Diminuisci l'obiettivo" ?disabled=${!canAdjust} @click=${() => this._bump(-1, shownTarget ?? s.default_target)}>−</button>
               <div class="tv">${fmtTemp(shownTarget ?? s.default_target)}<span> °C</span></div>
-              <button class="st" aria-label="Aumenta l'obiettivo" ?disabled=${!lv.available} @click=${() => this._bump(1, shownTarget ?? s.default_target)}>+</button>
+              <button class="st" aria-label="Aumenta l'obiettivo" ?disabled=${!canAdjust} @click=${() => this._bump(1, shownTarget ?? s.default_target)}>+</button>
             </div>
+            ${lv.available && !canAdjust ? html`<div class="hintline">Spento: scegli Manuale per regolare la temperatura</div>` : nothing}
             <div class="modes" role="group" aria-label="Modalità">
               ${this._modeButton(MODE_LABEL.programma, "mdi:calendar-clock", isProgram, () => void this._setMode("programma"), lv.mode === "fuori_programma")}
               ${this._modeButton(MODE_LABEL.manuale, "mdi:hand-back-right-outline", lv.mode === "manuale", () => void this._setMode("manuale"))}
@@ -257,7 +259,8 @@ export class TermostatoCard extends LitElement {
     .stepper { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 6px 0 10px; }
     .tv { min-width: 96px; text-align: center; font-size: 1.5rem; font-weight: 600; }
     .st { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--divider-color, #ccc); background: var(--card-background-color, #fff); color: inherit; font-size: 1.6rem; line-height: 1; cursor: pointer; }
-    .st:disabled { opacity: 0.4; }
+    .st:disabled { opacity: 0.4; cursor: not-allowed; }
+    .hintline { margin: -4px 0 8px; text-align: center; font-size: 0.78rem; color: var(--secondary-text-color, #727272); }
     .modes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
     .mb { min-height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 2px; border-radius: 12px; border: 1px solid var(--divider-color, #ccc); background: transparent; color: inherit; font-size: 0.74rem; cursor: pointer; }
     .mb ha-icon { --mdc-icon-size: 20px; }
@@ -297,4 +300,4 @@ window.customCards.push({
 });
 
 // eslint-disable-next-line no-console
-console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.0 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
+console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.1 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");

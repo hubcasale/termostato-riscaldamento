@@ -58,7 +58,7 @@ embedded: true  # senza cornice, per metterla dentro un'altra scheda
 ```
 
 - **Quadrante**: temperatura ambiente con l'ago, segno dell'obiettivo e fasce di colore (blu sotto, verde vicino, arancio sopra).
-- **+ e −**: cambiano l'obiettivo a passi di 0,5 °C dentro i limiti delle preferenze.
+- **+ e −**: cambiano l'obiettivo a passi di 0,5 °C dentro i limiti delle preferenze. Da **Spento** sono disattivati e non accendono niente: prima si sceglie Manuale (che riporta l'obiettivo predefinito). In Programma valgono fino alla fascia successiva.
 - **Modalità**: Programma, Manuale, Timer e Spento.
 - **Programma**: fasce settimanali con la vista della settimana colorata per temperatura.
 - **Preferenze (ingranaggio)**: cinque blocchi (Temperature, Timer, Casa vuota, Annunci vocali, Collegamenti), ciascuno con la sua spiegazione: tocca la «i» per leggere cosa fa, quando serve e il valore consigliato.

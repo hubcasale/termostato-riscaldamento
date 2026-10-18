@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { clampStep, crossesMidnight, dayIntervals, defaultSlot, describeDays, fmtTemp, formatDuration, gaugeModel, modeLine, scheduleErrors, slotError, tempColor, toNumber, validateSettings, whenText } from "../src/card-logic";
+import { canAdjustTarget, clampStep, crossesMidnight, dayIntervals, defaultSlot, describeDays, fmtTemp, formatDuration, gaugeModel, modeLine, scheduleErrors, slotError, tempColor, toNumber, validateSettings, whenText } from "../src/card-logic";
 import { gaugeSvg } from "../src/gauge";
 import { HELP } from "../src/help";
 import type { SlotData, TermoSettings } from "../src/types";
@@ -103,4 +103,13 @@ test("ogni preferenza ha la sua spiegazione completa", () => {
     assert.ok(h, id);
     assert.ok(h.title.length > 2 && h.what.length > 20 && h.when.length > 10, id);
   }
+});
+
+test("obiettivo: da Spento il + e il − sono disattivati, negli altri modi no", () => {
+  assert.equal(canAdjustTarget("spento", true), false);
+  assert.equal(canAdjustTarget("manuale", true), true);
+  assert.equal(canAdjustTarget("programma", true), true);
+  assert.equal(canAdjustTarget("fuori_programma", true), true);
+  assert.equal(canAdjustTarget("timer", true), true);
+  assert.equal(canAdjustTarget("manuale", false), false);
 });
