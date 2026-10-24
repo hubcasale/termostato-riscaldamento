@@ -281,7 +281,7 @@ export class TermostatoCard extends LitElement {
       .modes { grid-template-columns: repeat(2, 1fr); }
       .mb { min-height: 44px; flex-direction: row; gap: 6px; font-size: 0.82rem; }
     }
-    /* striscia larga (sotto le altre schede): tre colonne - quadrante | obiettivo e modalità | stato, calendario e preferenze */
+    /* striscia larga (sotto le altre schede): tre colonne - quadrante | obiettivo e modalita' | stato, calendario e preferenze */
     @container (min-width: 900px) {
       .pad {
         display: grid;
@@ -290,26 +290,30 @@ export class TermostatoCard extends LitElement {
           "titolo comandi stato"
           "quadrante comandi riga"
           "errore errore errore";
-        gap: 6px 24px;
+        gap: 2px 24px;
         align-items: center;
+        padding: 6px 14px 8px;
       }
       .top { display: contents; }
-      .title { grid-area: titolo; }
-      .pill { grid-area: stato; justify-self: end; }
+      .title { grid-area: titolo; font-size: 0.98rem; }
+      .pill { grid-area: stato; justify-self: end; padding: 3px 10px; font-size: 0.78rem; }
       .cols { display: contents; }
       .left { grid-area: quadrante; }
       .right { grid-area: comandi; }
-      .lrow { grid-area: riga; margin-top: 0; flex-wrap: wrap; justify-content: flex-end; }
-      .lrow .line { flex: 1 1 100%; }
+      .lrow { grid-area: riga; margin-top: 0; flex-wrap: wrap; justify-content: flex-end; gap: 4px; }
+      .lrow .line { flex: 1 1 100%; padding: 4px 10px; font-size: 0.8rem; }
+      .lrow .btn { min-height: 38px; min-width: 38px; padding: 2px 8px; }
       .errbox { grid-area: errore; }
-      .modes { grid-template-columns: repeat(4, 1fr); }
-      .mb { min-height: 44px; flex-direction: column; gap: 0; font-size: 0.76rem; }
-      .gauge { max-width: 168px; margin-top: 0; }
-      .big { font-size: 1.45rem; }
+      .modes { grid-template-columns: repeat(4, 1fr); gap: 5px; }
+      .mb { min-height: 38px; flex-direction: column; gap: 0; font-size: 0.74rem; }
+      .mb ha-icon { --mdc-icon-size: 18px; }
+      .gauge { max-width: 140px; margin-top: 0; }
+      .big { font-size: 1.3rem; }
       .read { margin-top: 0; }
-      .stepper { margin: 0 0 6px; }
-      .st { width: 44px; height: 44px; }
-      .pad { padding: 8px 14px 10px; gap: 4px 24px; }
+      .stepper { margin: 0 0 4px; gap: 14px; }
+      .st { width: 40px; height: 40px; font-size: 1.4rem; }
+      .tv { font-size: 1.3rem; }
+      .hintline { margin: 0 0 4px; }
     }
   `;
 }
@@ -330,4 +334,4 @@ window.customCards.push({
 });
 
 // eslint-disable-next-line no-console
-console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.3 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
+console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.4 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
