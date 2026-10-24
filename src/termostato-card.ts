@@ -281,6 +281,31 @@ export class TermostatoCard extends LitElement {
       .modes { grid-template-columns: repeat(2, 1fr); }
       .mb { min-height: 44px; flex-direction: row; gap: 6px; font-size: 0.82rem; }
     }
+    /* striscia larga (sotto le altre schede): tre colonne - quadrante | obiettivo e modalità | stato, calendario e preferenze */
+    @container (min-width: 900px) {
+      .pad {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1fr);
+        grid-template-areas:
+          "titolo comandi stato"
+          "quadrante comandi riga"
+          "errore errore errore";
+        gap: 6px 24px;
+        align-items: center;
+      }
+      .top { display: contents; }
+      .title { grid-area: titolo; }
+      .pill { grid-area: stato; justify-self: end; }
+      .cols { display: contents; }
+      .left { grid-area: quadrante; }
+      .right { grid-area: comandi; }
+      .lrow { grid-area: riga; margin-top: 0; flex-wrap: wrap; justify-content: flex-end; }
+      .lrow .line { flex: 1 1 100%; }
+      .errbox { grid-area: errore; }
+      .modes { grid-template-columns: repeat(4, 1fr); }
+      .mb { min-height: 52px; flex-direction: column; gap: 1px; font-size: 0.78rem; }
+      .gauge { max-width: 230px; }
+    }
   `;
 }
 
