@@ -325,4 +325,4 @@ window.customCards.push({
 });
 
 // eslint-disable-next-line no-console
-console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.1 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
+console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.2 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
