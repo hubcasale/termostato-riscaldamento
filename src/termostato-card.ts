@@ -303,8 +303,13 @@ export class TermostatoCard extends LitElement {
       .lrow .line { flex: 1 1 100%; }
       .errbox { grid-area: errore; }
       .modes { grid-template-columns: repeat(4, 1fr); }
-      .mb { min-height: 52px; flex-direction: column; gap: 1px; font-size: 0.78rem; }
-      .gauge { max-width: 230px; }
+      .mb { min-height: 44px; flex-direction: column; gap: 0; font-size: 0.76rem; }
+      .gauge { max-width: 168px; margin-top: 0; }
+      .big { font-size: 1.45rem; }
+      .read { margin-top: 0; }
+      .stepper { margin: 0 0 6px; }
+      .st { width: 44px; height: 44px; }
+      .pad { padding: 8px 14px 10px; gap: 4px 24px; }
     }
   `;
 }
@@ -325,4 +330,4 @@ window.customCards.push({
 });
 
 // eslint-disable-next-line no-console
-console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.2 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");
+console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.3 ", "color: white; background: #b45309; font-weight: 700;", "color: #b45309; background: white; font-weight: 700;");

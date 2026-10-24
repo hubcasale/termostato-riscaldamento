@@ -446,10 +446,15 @@ var re=Object.defineProperty;var se=Object.getOwnPropertyDescriptor;var m=(s,e,t
       .lrow .line { flex: 1 1 100%; }
       .errbox { grid-area: errore; }
       .modes { grid-template-columns: repeat(4, 1fr); }
-      .mb { min-height: 52px; flex-direction: column; gap: 1px; font-size: 0.78rem; }
-      .gauge { max-width: 230px; }
+      .mb { min-height: 44px; flex-direction: column; gap: 0; font-size: 0.76rem; }
+      .gauge { max-width: 168px; margin-top: 0; }
+      .big { font-size: 1.45rem; }
+      .read { margin-top: 0; }
+      .stepper { margin: 0 0 6px; }
+      .st { width: 44px; height: 44px; }
+      .pad { padding: 8px 14px 10px; gap: 4px 24px; }
     }
-  `}};m([x({attribute:!1})],k.prototype,"hass",2),m([x({type:Boolean,reflect:!0})],k.prototype,"embedded",2),m([g()],k.prototype,"_config",2),m([g()],k.prototype,"_info",2),m([g()],k.prototype,"_error",2),m([g()],k.prototype,"_now",2),m([g()],k.prototype,"_pending",2);customElements.get("termostato-card")||customElements.define("termostato-card",k);window.customCards=window.customCards||[];window.customCards.push({type:"termostato-card",name:"Termostato riscaldamento",description:"Quadrante, obiettivo, programma settimanale, timer e preferenze del termostato ambiente."});console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.2 ","color: white; background: #b45309; font-weight: 700;","color: #b45309; background: white; font-weight: 700;");export{k as TermostatoCard};
+  `}};m([x({attribute:!1})],k.prototype,"hass",2),m([x({type:Boolean,reflect:!0})],k.prototype,"embedded",2),m([g()],k.prototype,"_config",2),m([g()],k.prototype,"_info",2),m([g()],k.prototype,"_error",2),m([g()],k.prototype,"_now",2),m([g()],k.prototype,"_pending",2);customElements.get("termostato-card")||customElements.define("termostato-card",k);window.customCards=window.customCards||[];window.customCards.push({type:"termostato-card",name:"Termostato riscaldamento",description:"Quadrante, obiettivo, programma settimanale, timer e preferenze del termostato ambiente."});console.info("%c TERMOSTATO-RISCALDAMENTO %c v0.1.3 ","color: white; background: #b45309; font-weight: 700;","color: #b45309; background: white; font-weight: 700;");export{k as TermostatoCard};
 /*! Bundled license information:
 
 @lit/reactive-element/css-tag.js:
