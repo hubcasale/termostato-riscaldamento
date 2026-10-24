@@ -1,3 +1,5 @@
+> **Archiviato.** Questa integrazione è confluita in [impianto-riscaldamento](https://github.com/hubcasale/impianto-riscaldamento), che raccoglie stufa a pellet e termostato in un'unica integrazione con migrazione automatica. Questo repository non riceverà più aggiornamenti.
+
 # Termostato riscaldamento
 
 Integrazione per Home Assistant che comanda un **termostato ambiente esistente** (`climate.*`) con tre modalità, una scheda Lovelace e preferenze configurabili dalla scheda stessa:
